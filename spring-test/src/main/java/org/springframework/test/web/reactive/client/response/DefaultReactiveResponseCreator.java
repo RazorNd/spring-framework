@@ -5,6 +5,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.http.client.reactive.ClientHttpResponse;
 import org.springframework.mock.http.client.reactive.MockClientHttpResponse;
 import org.springframework.test.web.reactive.client.ReactiveResponseCreator;
@@ -34,7 +35,7 @@ public class DefaultReactiveResponseCreator implements ReactiveResponseCreator {
 	}
 
 	@Override
-	public Mono<ClientHttpResponse> createResponse() {
+	public Mono<ClientHttpResponse> createResponse(ClientHttpRequest request) {
 		MockClientHttpResponse response = new MockClientHttpResponse(httpStatus);
 
 		response.getHeaders().addAll(headers);

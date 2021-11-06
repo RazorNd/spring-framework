@@ -8,15 +8,15 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-final class Expectation {
+final class ReactiveRequestExpectation {
 
 	private final List<ReactiveRequestMatcher> requestMatchers;
 	private final ReactiveResponseCreator responseCreator;
 	private final RequestCount requestCount;
 
-	Expectation(ExpectedCount expectedCount,
-				List<ReactiveRequestMatcher> requestMatchers,
-				ReactiveResponseCreator responseCreator) {
+	ReactiveRequestExpectation(ExpectedCount expectedCount,
+							   List<ReactiveRequestMatcher> requestMatchers,
+							   ReactiveResponseCreator responseCreator) {
 		this.requestCount = new RequestCount(expectedCount);
 		this.requestMatchers = requestMatchers;
 		this.responseCreator = responseCreator;
@@ -29,14 +29,14 @@ final class Expectation {
 				.all(Boolean::booleanValue)
 				.filter(Boolean::booleanValue)
 				.filter(t -> requestCount.tryIncrement())
-				.flatMap(t -> responseCreator.createResponse());
+				.flatMap(t -> responseCreator.createResponse(request));
 	}
 
 
 	static class RequestCount {
 		private final ExpectedCount expectedCount;
 
-		private int matchedRequestCount;
+		private int matchedRequestCount = 0;
 
 		RequestCount(ExpectedCount expectedCount) {
 			this.expectedCount = expectedCount;
@@ -47,7 +47,7 @@ final class Expectation {
 			if (newValue > expectedCount.getMaxCount()) {
 				return false;
 			}
-			matchedRequestCount++;
+			matchedRequestCount = newValue;
 			return true;
 		}
 	}

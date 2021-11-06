@@ -11,12 +11,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.client.ExpectedCount.once;
-
 public class ReactiveUnorderedRequestExpectationManager implements ReactiveRequestExpectationManager {
 
 	private final List<ClientHttpRequest> requests = new ArrayList<>();
-	private final List<Expectation> expectations = new ArrayList<>();
+	private final List<ReactiveRequestExpectation> expectations = new ArrayList<>();
 
 
 	@Override

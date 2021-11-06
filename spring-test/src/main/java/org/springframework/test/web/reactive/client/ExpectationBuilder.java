@@ -12,10 +12,10 @@ public final class ExpectationBuilder {
 
 	private final ExpectedCount expectedCount;
 
-	private final Consumer<Expectation> expectationConsumer;
+	private final Consumer<ReactiveRequestExpectation> expectationConsumer;
 
 	public ExpectationBuilder(ExpectedCount expectedCount,
-							  Consumer<Expectation> expectationConsumer,
+							  Consumer<ReactiveRequestExpectation> expectationConsumer,
 							  ReactiveRequestMatcher matcher) {
 		this.expectedCount = expectedCount;
 		this.expectationConsumer = expectationConsumer;
@@ -28,6 +28,6 @@ public final class ExpectationBuilder {
 	}
 
 	public void andRespond(ReactiveResponseCreator responseCreator) {
-		expectationConsumer.accept(new Expectation(expectedCount, matchers, responseCreator));
+		expectationConsumer.accept(new ReactiveRequestExpectation(expectedCount, matchers, responseCreator));
 	}
 }
